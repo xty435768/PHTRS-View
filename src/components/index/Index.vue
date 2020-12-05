@@ -106,7 +106,7 @@
           style="margin-left: 10px;"
           type="primary"
           icon="el-icon-circle-plus"
-          v-if="user_type=='citizen' || true"
+          v-if="user_type=='citizen'"
           @click="handleCreate"
         >New Record</el-button>
         <el-button
@@ -148,10 +148,10 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="坑洞标识号" sortable width="200"></el-table-column>
+        <el-table-column prop="id" label="坑洞标识号" sortable width="120px"></el-table-column>
         <el-table-column prop="address" label="街道地址" sortable width="300"></el-table-column>
-        <el-table-column prop="size" label="大小" sortable width="100"></el-table-column>
-        <el-table-column prop="position" label="部位" sortable width="100"></el-table-column>
+        <el-table-column prop="size" label="大小" sortable width="75px"></el-table-column>
+        <el-table-column prop="position" label="部位" sortable width="75px"></el-table-column>
         <el-table-column prop="district" label="地区" sortable width="200"></el-table-column>
         <el-table-column prop="priority" label="维修优先级" sortable width="120"></el-table-column>
         <el-table-column prop="time" label="创建时间" sortable width="200"></el-table-column>
@@ -206,10 +206,10 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="坑洞标识号" sortable width="200"></el-table-column>
+        <el-table-column prop="id" label="坑洞标识号" sortable width="120px"></el-table-column>
         <el-table-column prop="address" label="街道地址" sortable width="300"></el-table-column>
-        <el-table-column prop="size" label="大小" sortable width="100"></el-table-column>
-        <el-table-column prop="position" label="部位" sortable width="100"></el-table-column>
+        <el-table-column prop="size" label="大小" sortable width="75px"></el-table-column>
+        <el-table-column prop="position" label="部位" sortable width="75px"></el-table-column>
         <el-table-column prop="district" label="地区" sortable width="200"></el-table-column>
         <el-table-column prop="priority" label="维修优先级" sortable width="120"></el-table-column>
         <el-table-column prop="time" label="创建时间" sortable width="200"></el-table-column>
@@ -256,9 +256,6 @@
         </el-table-column>
       </el-table>
     </div>
-<!-- <el-button @click="changeRole">切换角色</el-button>
-<el-button @click="send_test" disabled>发送测试</el-button>
-<el-button @click="test">测试</el-button> -->
   </div>
 </template>
 
@@ -307,14 +304,6 @@ export default {
     }
   },
   methods: {
-    test(){
-      console.log(this.tableData);
-    },
-    changeRole(){
-      this.role_index++;
-      this.user_type = this.role[this.role_index%3];
-      alert(this.role[this.role_index%3]);
-    },
     formatter (row, column) {
       return row.address;
     },
@@ -463,38 +452,6 @@ export default {
       this.checkResultDialogFormVisible=true;
       this.modifing_order = $.extend(true, {}, row);
       this.modifing_index = index;
-    },
-    send_test(){
-      this.request_test(this.tableData[0]);
-    },
-    request_test(record){
-      //人数
-      this.$axios.post('/temp', {
-        address: record.address,
-        size: record.size,
-        position: record.position,
-        district: record.district,
-        priority: record.priority,
-        time: record.time,
-        status: record.status,
-        workersId: record.workersId,
-        device: record.device,
-        duration: record.duration,
-        material: record.material,
-        cost: record.cost,
-        userName: window.sessionStorage.getItem('user')
-      }).then(successResponse => {
-        if (successResponse.status === 200) {
-          this.$message({message:'提交成功！',type:'success',center:true,showClose:true})
-        }
-        else
-        {
-          this.$message({message:'提交失败！',type:'error',center:true,showClose:true})
-        }
-      })
-      .catch(failResponse => {
-        this.$notify.error({title: '提交异常！',message: failResponse.message});
-      })
     },
     refresh(){
       this.tableData.length = 0;
